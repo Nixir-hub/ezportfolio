@@ -15,9 +15,9 @@ export default function ActivateAccount() {
 
   return (
     <div>
-      {status === "pending" && <p>Aktywuję konto...</p>}
-      {status === "success" && <p>Konto aktywowane! Możesz się zalogować.</p>}
-      {status === "error" && <p>Nieprawidłowy link aktywacyjny.</p>}
+      {status === "pending" && <p>Activating account...</p>}
+      {status === "success" && <p>Account activated. You can login</p>}
+      {status === "error" && <p>Incorrect activation link.</p>}
     </div>
   );
 }

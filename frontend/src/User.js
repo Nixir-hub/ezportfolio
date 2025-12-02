@@ -2,10 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { apiFetch } from "./api";
 import { AuthContext } from "./components/AuthContext";
 import { useNavigate } from "react-router-dom";
+import {useLanguage} from './language_context_provider';
 
 export default function UserPanel() {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useLanguage()
 
   // Profil
   const [user, setUser] = useState(null);
@@ -77,12 +79,12 @@ export default function UserPanel() {
 
   return (
     <div className="container mt-5" style={{ maxWidth: "600px" }}>
-      <h2 className="mb-4">Panel użytkownika</h2>
+      <h2 className="mb-4">{t('userPanel')}</h2>
 
       {/* Profil */}
       <div className="card mb-4">
         <div className="card-body">
-          <h5 className="card-title">Profil</h5>
+          <h5 className="card-title">{t('profil')}</h5>
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Email:</strong> {user.email}</p>
         </div>
@@ -91,12 +93,12 @@ export default function UserPanel() {
       {/* Zmiana hasła */}
       <div className="card mb-4">
         <div className="card-body">
-          <h5 className="card-title">Zmiana hasła</h5>
+          <h5 className="card-title">{t('changePassword')}</h5>
           <form onSubmit={handlePasswordChange}>
             <input
               type="password"
               className="form-control mb-3"
-              placeholder="Stare hasło"
+              placeholder={t('oldPassword')}
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
               required
@@ -104,12 +106,12 @@ export default function UserPanel() {
             <input
               type="password"
               className="form-control mb-3"
-              placeholder="Nowe hasło"
+              placeholder={t('newPassword')}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
             />
-            <button type="submit" className="btn btn-primary w-100">Zmień hasło</button>
+            <button type="submit" className="btn btn-primary w-100">{t('changePassword')}</button>
           </form>
           {passwordMessage && <div className="mt-3 alert alert-info">{passwordMessage}</div>}
         </div>
@@ -118,9 +120,9 @@ export default function UserPanel() {
       {/* Usunięcie konta */}
       <div className="card mb-4">
         <div className="card-body">
-          <h5 className="card-title">Usuń konto</h5>
+          <h5 className="card-title">{t('deleteAccount')}</h5>
           <button className="btn btn-danger w-100" onClick={handleDelete}>
-            Usuń
+            {t('delete')}
           </button>
           {deleteMessage && <div className="mt-3 alert alert-info">{deleteMessage}</div>}
         </div>

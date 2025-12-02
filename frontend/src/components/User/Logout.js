@@ -2,10 +2,12 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 import { apiFetch } from "../../api";
+import {useLanguage} from '../../language_context_provider';
 
 export default function Logout() {
   const { logout } = useContext(AuthContext); // <- używamy funkcji logout
   const navigate = useNavigate();
+  const { t } = useLanguage()
 
   const handleLogout = async () => {
     const refresh = localStorage.getItem("refresh");
@@ -27,7 +29,7 @@ export default function Logout() {
 
   return (
     <button className="btn btn-outline-danger" onClick={handleLogout}>
-      Logout
+        {t('logout')}
     </button>
   );
 }

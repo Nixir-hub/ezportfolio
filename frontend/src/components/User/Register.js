@@ -1,11 +1,12 @@
 import { useState } from "react";
+import {useLanguage} from '../../language_context_provider';
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
+  const { t } = useLanguage()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,13 +34,13 @@ export default function Register() {
 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
-      <h2 className="mb-4">Rejestracja</h2>
+      <h2 className="mb-4">{t("register")}</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <input
             type="text"
             className="form-control"
-            placeholder="Username"
+            placeholder={t("username")}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -49,7 +50,7 @@ export default function Register() {
           <input
             type="email"
             className="form-control"
-            placeholder="Email"
+            placeholder={t("email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -59,13 +60,13 @@ export default function Register() {
           <input
             type="password"
             className="form-control"
-            placeholder="Hasło"
+            placeholder={t("password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary w-100">Zarejestruj</button>
+        <button type="submit" className="btn btn-primary w-100">{t("register")}</button>
       </form>
       {message && <div className="mt-3 alert alert-info">{message}</div>}
     </div>

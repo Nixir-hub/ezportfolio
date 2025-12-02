@@ -1,14 +1,14 @@
 import { useState, useContext } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { AuthContext } from "../AuthContext";
-
+import {useLanguage} from '../../language_context_provider';
 
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
+  const { t } = useLanguage()
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -37,13 +37,13 @@ export default function Login() {
 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
-      <h2 className="mb-4">Logowanie</h2>
+      <h2 className="mb-4">{t('login')}</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <input
             type="text"
             className="form-control"
-            placeholder="Username"
+            placeholder={t('username')}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -54,7 +54,7 @@ export default function Login() {
           <input
             type="password"
             className="form-control"
-            placeholder="Hasło"
+            placeholder={t('password')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -62,16 +62,14 @@ export default function Login() {
         </div>
 
         <button type="submit" className="btn btn-primary w-100">
-          Zaloguj
+            {t("login")}
         </button>
       </form>
 
       <div className="mt-3 text-center">
-        <Link to="/password-reset">Nie pamiętasz hasła?</Link>
+        <Link to="/password-reset">{t("forgotPassword")}</Link>
       </div>
       {message && <div className="mt-3 alert alert-info">{message}</div>}
-
-
     </div>
   );
 }
