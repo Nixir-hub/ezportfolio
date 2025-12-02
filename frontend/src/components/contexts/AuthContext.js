@@ -1,7 +1,7 @@
 // src/components/AuthContext.jsx
 
 import { createContext, useState, useEffect } from "react";
-import {apiFetch} from "../api";
+import {apiFetch} from "../../api";
 
 export const AuthContext = createContext();
 

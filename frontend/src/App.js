@@ -2,11 +2,11 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./components/User/Login.js";
 import Register from "./components/User/Register";
 import Logout from "./components/User/Logout";
-import UserPanel from "./User";
+import UserPanel from "./components/User/User";
 import Navbar from "./components/page/Navbar";
 import Home from "./components/page/Home";
 import PasswordReset from "./components/User/PasswordReset";
-import {LanguageProvider} from "./language_context_provider";
+import {LanguageProvider} from "./components/contexts/language_context_provider";
 
 
 function App() {

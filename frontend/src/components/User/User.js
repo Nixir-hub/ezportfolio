@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { apiFetch } from "./api";
-import { AuthContext } from "./components/AuthContext";
+import { apiFetch } from "../../api";
+import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import {useLanguage} from './language_context_provider';
+import {useLanguage} from '../contexts/language_context_provider';
 
 export default function UserPanel() {
   const { logout } = useContext(AuthContext);

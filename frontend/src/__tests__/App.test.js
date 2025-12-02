@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "../App";
-import { AuthContext } from "../components/AuthContext";
+import { AuthContext } from "../components/contexts/AuthContext";
 
 const mockAuth = {
   user: null,

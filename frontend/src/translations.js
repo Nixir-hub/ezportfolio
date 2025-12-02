@@ -7,7 +7,7 @@ const translations = {
     register: 'Sign up',
     
     // Common
-    profil: 'Profile',
+    profil: 'Profil',
     welcome: 'Welcome',
     email: 'Email',
     password: 'Password',
@@ -27,7 +27,22 @@ const translations = {
     loginError: 'Login failed',
     registerSuccess: 'Registration successful',
     forgotPassword: 'Forgot your password?',
-    
+    slide1_title: "Welcome to my portfolio",
+    slide1_text: "Example description of the first slide",
+
+    slide2_title: "Projects and experience",
+    slide2_text: "Description of the second slide",
+
+    slide3_title: "Contact & information",
+    slide3_text: "Description of the third slide",
+
+    about_me_heading: "About me",
+    experience_title: "Experience",
+    experience_text: "Several years of experience in building web applications.",
+    projects_title: "Projects",
+    projects_text: "Project portfolio in React, Django, AI and more.",
+    contact_title: "Contact",
+    contact_text: "Email, LinkedIn, GitHub — all in one place.",
     // Add more translations as needed
   },
   pl: {
@@ -38,7 +53,7 @@ const translations = {
     register: 'Zarejestruj się',
     
     // Common
-    profil: 'Profil',
+    profil: 'Konto',
     welcome: 'Witaj',
     email: 'E-mail',
     password: 'Hasło',
@@ -58,7 +73,22 @@ const translations = {
     loginError: 'Błąd logowania',
     registerSuccess: 'Rejestracja pomyślna',
     forgotPassword: 'Nie pamietasz hasłą?',
-    
+    slide1_title: "Witaj na moim portfolio",
+    slide1_text: "Przykładowy opis pierwszego slajdu",
+
+    slide2_title: "Projekty i doświadczenie",
+    slide2_text: "Opis drugiego slajdu",
+
+    slide3_title: "Kontakt i informacje",
+    slide3_text: "Opis trzeciego slajdu",
+
+    about_me_heading: "O mnie",
+    experience_title: "Doświadczenie",
+    experience_text: "Kilka lat doświadczenia w tworzeniu aplikacji webowych.",
+    projects_title: "Projekty",
+    projects_text: "Portfolio projektów w React, Django, AI i innych technologiach.",
+    contact_title: "Kontakt",
+    contact_text: "Email, LinkedIn, GitHub — wszystko w jednym miejscu.",
     // Add more translations as needed
   }
 };

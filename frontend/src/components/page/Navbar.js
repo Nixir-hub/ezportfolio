@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import Logout from "../User/Logout";
 import LanguageSwitcher from "./LanguageSwitcher";
-import {useLanguage} from '../../language_context_provider';
+import {useLanguage} from '../contexts/language_context_provider';
 
 export default function Navbar() {
   const { user } = useContext(AuthContext);

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Login from "../components/User/Login";
-import { AuthContext } from "../components/AuthContext";
+import { AuthContext } from "../components/contexts/AuthContext";
 
 test("renders form fields", () => {
   render(

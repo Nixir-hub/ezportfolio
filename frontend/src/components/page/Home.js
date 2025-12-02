@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
+import { useLanguage } from "../contexts/language_context_provider";
 
 export default function Home() {
+  const { t } = useLanguage();
+
   const slides = [
     {
-      title: "Witaj na moim portfolio",
-      text: "Przykładowy opis pierwszego slajdu",
+      title: t("slide1_title"),
+      text: t("slide1_text"),
       bg: "https://via.placeholder.com/1200x400?text=Slide+1"
     },
     {
-      title: "Projekty i doświadczenie",
-      text: "Opis drugiego slajdu",
+      title: t("slide2_title"),
+      text: t("slide2_text"),
       bg: "https://via.placeholder.com/1200x400?text=Slide+2"
     },
     {
-      title: "Kontakt i informacje",
-      text: "Opis trzeciego slajdu",
+      title: t("slide3_title"),
+      text: t("slide3_text"),
       bg: "https://via.placeholder.com/1200x400?text=Slide+3"
     },
   ];
@@ -30,7 +33,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* Slider */}
       <Carousel fade>
         {slides.map((slide, index) => (
           <Carousel.Item key={index}>
@@ -53,36 +55,38 @@ export default function Home() {
                 <h3>{slide.title}</h3>
                 <p>{slide.text}</p>
               </div>
-            </div>
+            </div>0
           </Carousel.Item>
         ))}
       </Carousel>
 
-      {/* Kafelki z informacjami */}
       <Container className="mt-5">
-        <h2 className="text-center mb-4">O mnie</h2>
+        <h2 className="text-center mb-4">{t("about_me_heading")}</h2>
+
         <Row>
           <Col md={4} className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>Doświadczenie</Card.Title>
-                <Card.Text>Kilka lat doświadczenia w tworzeniu aplikacji webowych.</Card.Text>
+                <Card.Title>{t("experience_title")}</Card.Title>
+                <Card.Text>{t("experience_text")}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
+
           <Col md={4} className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>Projekty</Card.Title>
-                <Card.Text>Portfolio projektów w React, Django, AI i innych technologiach.</Card.Text>
+                <Card.Title>{t("projects_title")}</Card.Title>
+                <Card.Text>{t("experience_text")}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
+
           <Col md={4} className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>Kontakt</Card.Title>
-                <Card.Text>Email, LinkedIn, GitHub — wszystko w jednym miejscu.</Card.Text>
+                <Card.Title>{t("contact_title")}</Card.Title>
+                <Card.Text>{t("contact_text")}</Card.Text>
               </Card.Body>
             </Card>
           </Col>

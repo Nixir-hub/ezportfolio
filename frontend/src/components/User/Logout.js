@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { apiFetch } from "../../api";
-import {useLanguage} from '../../language_context_provider';
+import {useLanguage} from '../contexts/language_context_provider';
 
 export default function Logout() {
   const { logout } = useContext(AuthContext); // <- używamy funkcji logout

@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import {Link, useNavigate} from "react-router-dom";
-import { AuthContext } from "../AuthContext";
-import {useLanguage} from '../../language_context_provider';
+import { AuthContext } from "../contexts/AuthContext";
+import {useLanguage} from '../contexts/language_context_provider';
 
 
 export default function Login() {

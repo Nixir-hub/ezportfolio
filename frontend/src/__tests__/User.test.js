@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import UserPanel from "../User";
-import { AuthContext } from "../components/AuthContext";
+import UserPanel from "../components/User/User";
+import { AuthContext } from "../components/contexts/AuthContext";
 import { apiFetch } from "../api";
 import { BrowserRouter } from "react-router-dom";
 

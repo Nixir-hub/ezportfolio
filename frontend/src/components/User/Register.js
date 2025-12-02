@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {useLanguage} from '../../language_context_provider';
+import {useLanguage} from '../contexts/language_context_provider';
 
 export default function Register() {
   const [username, setUsername] = useState("");

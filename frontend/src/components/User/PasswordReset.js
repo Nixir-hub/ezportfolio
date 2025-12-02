@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {useLanguage} from '../../language_context_provider';
+import {useLanguage} from '../contexts/language_context_provider';
 
 
 function getCookie(name) {
