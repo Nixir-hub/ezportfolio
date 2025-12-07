@@ -31,10 +31,10 @@ export default function UserPanel() {
           const data = await res.json();
           setUser(data);
         } else {
-          setProfileError("Nie udało się pobrać profilu.");
+          setProfileError("It's not possible to fetch user profile. Try to logout and login again.");
         }
       } catch (err) {
-        setProfileError("Błąd sieci.");
+        setProfileError("Network error. Try again later.");
       } finally {
         setLoading(false);
       }
@@ -55,13 +55,13 @@ export default function UserPanel() {
       setOldPassword("");
       setNewPassword("");
     } catch {
-      setPasswordMessage("Błąd sieci.");
+      setPasswordMessage("Network error. Try again later.");
     }
   };
 
   // Usunięcie konta
   const handleDelete = async () => {
-    if (!window.confirm("Czy na pewno chcesz usunąć konto?")) return;
+    if (!window.confirm("Are you sure to delete account?")) return;
 
     try {
       const res = await apiFetch("http://localhost:8000/delete-account/", { method: "DELETE" });
@@ -70,11 +70,11 @@ export default function UserPanel() {
       logout();
       navigate("/");
     } catch {
-      setDeleteMessage("Błąd sieci.");
+      setDeleteMessage("Network error. Try again later.");
     }
   };
 
-  if (loading) return <p className="text-center mt-5">Ładowanie danych użytkownika...</p>;
+  if (loading) return <p className="text-center mt-5">Loading...</p>;
   if (profileError) return <p className="text-center mt-5 text-danger">{profileError}</p>;
 
   return (
@@ -85,8 +85,8 @@ export default function UserPanel() {
       <div className="card mb-4">
         <div className="card-body">
           <h5 className="card-title">{t('profil')}</h5>
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>{t("username")}:</strong> {user.username}</p>
+          <p><strong>{t("email")}:</strong> {user.email}</p>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export default function UserPanel() {
               onChange={(e) => setNewPassword(e.target.value)}
               required
             />
-            <button type="submit" className="btn btn-primary w-100">{t('changePassword')}</button>
+            <button type="submit" className="btn btn-primary w-100">{t('submit')}</button>
           </form>
           {passwordMessage && <div className="mt-3 alert alert-info">{passwordMessage}</div>}
         </div>
@@ -120,7 +120,7 @@ export default function UserPanel() {
       {/* Usunięcie konta */}
       <div className="card mb-4">
         <div className="card-body">
-          <h5 className="card-title">{t('deleteAccount')}</h5>
+          <h5 className="card-title text-center">{t('deleteAccount')}</h5>
           <button className="btn btn-danger w-100" onClick={handleDelete}>
             {t('delete')}
           </button>

@@ -22,9 +22,10 @@ from rest_framework_simplejwt.views import (
 )
 from ezapp.views import UserProfileView
 from ezapp.views import RegisterView
-from ezapp.views import activate_account
 from ezapp.views import ChangePasswordView, DeleteAccountView
 from ezapp.views import LoginView, LogoutView
+
+from ezapp.views import activate_account
 
 urlpatterns = [
     path('admin/', admin.site.urls),

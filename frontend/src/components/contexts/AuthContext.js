@@ -1,14 +1,10 @@
-// src/components/AuthContext.jsx
-
-import { createContext, useState, useEffect } from "react";
-import {apiFetch} from "../../api";
+import { createContext, useState, useEffect, useContext } from "react";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // 🔥 Dekoder JWT bez biblioteki
   const decodeToken = (token) => {
     try {
       const payload = token.split(".")[1];
@@ -18,49 +14,59 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // 🔥 Ładowanie użytkownika z localStorage po starcie
-  useEffect(() => {
-    const token = localStorage.getItem("access");
+  const isTokenExpired = (decoded) => {
+    if (!decoded?.exp) return true;
+    const now = Math.floor(Date.now() / 1000);
+    return decoded.exp < now;
+  };
 
-    if (token) {
-      const decoded = decodeToken(token);
-      if (decoded) {
-        setUser({
-          id: decoded.user_id,
-          username: decoded.username,
-        });
-      }
+  useEffect(() => {
+    const access = localStorage.getItem("access");
+    if (!access) return;
+
+    const decoded = decodeToken(access);
+
+    if (!decoded || isTokenExpired(decoded)) {
+      logout(); // automatycznie wyloguj
+      return;
     }
+
+    setUser({
+      id: decoded.user_id,
+      username: decoded.username,
+    });
   }, []);
 
-  // 🔥 Logowanie – zapis tokenów + usera
- const login = async (data) => {
-  // zapis JWT
-  localStorage.setItem("access", data.access);
-  localStorage.setItem("refresh", data.refresh);
+  const login = ({ access, refresh }) => {
+    localStorage.setItem("access", access);
+    localStorage.setItem("refresh", refresh);
 
-  setUser({
-    username: data.username
-  });
-};
+    const decoded = decodeToken(access);
+    if (!decoded) return;
 
-const logout = async () => {
-  const refresh = localStorage.getItem("refresh");
-  if (refresh) {
-    await apiFetch("/logout/", {
-      method: "POST",
-      body: JSON.stringify({ refresh }),
+    setUser({
+      id: decoded.user_id,
+      username: decoded.username,
     });
-  }
+  };
 
-  localStorage.removeItem("access");
-  localStorage.removeItem("refresh");
-  setUser(null);
-};
+  const logout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    setUser(null);
+  };
+
+  const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isAuthenticated, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

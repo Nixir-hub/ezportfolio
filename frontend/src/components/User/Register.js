@@ -20,15 +20,15 @@ export default function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage("Zarejestrowano użytkownika. Sprawdź e-mail w celu aktywacji.");
+        setMessage("User registered successfully. You can login now.");
         setUsername("");
         setEmail("");
         setPassword("");
       } else {
-        setMessage(data.error || "Coś poszło nie tak.");
+        setMessage(data.error || "Something went wrong. Please try again later.");
       }
     } catch (err) {
-      setMessage("Błąd sieci.");
+      setMessage("Network error. Try again later.");
     }
   };
 

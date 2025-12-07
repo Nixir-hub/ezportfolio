@@ -8,13 +8,12 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { t } = useLanguage()
+  const { t } = useLanguage();
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await fetch("http://localhost:8000/api/token/", {
         method: "POST",
@@ -23,14 +22,13 @@ export default function Login() {
       });
 
       const data = await res.json();
-
       if (res.ok) {
-        login(data);               // <-- zapisuje tokeny + usera do stanu
-        navigate("/user");         // <-- przekierowanie
+        login(data);        // zapis tokenów + user w kontekście
+        navigate("/user");
       } else {
         setMessage(data.detail || "Błędne dane logowania");
       }
-    } catch (err) {
+    } catch {
       setMessage("Błąd sieci");
     }
   };

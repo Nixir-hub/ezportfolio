@@ -38,9 +38,9 @@ export default function PasswordReset() {
       const text = await res.text();
       console.log("Dev reset link:", text);
 
-      setMessage("Link resetu został wysłany (sprawdź konsolę dev).");
+      setMessage("Reset link send to console(dev) email. Check it out.");
     } catch (err) {
-      setMessage("Błąd sieci");
+      setMessage("Network error. Try again later.");
     }
   };
 

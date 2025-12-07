@@ -21,7 +21,11 @@ const translations = {
     userPanel: 'User panel',
     deleteAccount: 'Delete account',
     delete: 'Delete',
-    
+    MLChart: 'MachineLearningChart',
+    classification: 'Classification',
+    regression: "Regression",
+    train:  'Training',
+
     // Messages
     loginSuccess: 'Login successful',
     loginError: 'Login failed',
@@ -55,7 +59,7 @@ const translations = {
     // Common
     profil: 'Konto',
     welcome: 'Witaj',
-    email: 'E-mail',
+    email: 'Email',
     password: 'Hasło',
     oldPassword: 'Stare hasło',
     newPassword: 'Nowe hasło',
@@ -67,7 +71,10 @@ const translations = {
     userPanel: 'Panel użytkownika',
     deleteAccount: 'Usuń konto',
     delete: 'Usuń',
-    
+    MLChart: 'WykresUczeniaMaszynowego',
+    classification: 'Klasyfikacja',
+    regression: "Regresja",
+    train:  'Trenuj',
     // Messages
     loginSuccess: 'Logowanie pomyślne',
     loginError: 'Błąd logowania',

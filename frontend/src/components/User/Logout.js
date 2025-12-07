@@ -1,30 +1,16 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { apiFetch } from "../../api";
 import {useLanguage} from '../contexts/language_context_provider';
 
 export default function Logout() {
-  const { logout } = useContext(AuthContext); // <- używamy funkcji logout
-  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
   const { t } = useLanguage()
+  const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    const refresh = localStorage.getItem("refresh");
-
-    try {
-      if (refresh) {
-        await apiFetch("http://localhost:8000/logout/", {
-          method: "POST",
-          body: JSON.stringify({ refresh }),
-        });
-      }
-    } catch (err) {
-      console.error("Błąd podczas wylogowania:", err);
-    } finally {
-      logout();     // <- czyści tokeny i stan usera
-      navigate("/");
-    }
+  const handleLogout = () => {
+    logout();        // usuwa tokeny + czyści user
+    navigate("/");   // przekierowanie
   };
 
   return (

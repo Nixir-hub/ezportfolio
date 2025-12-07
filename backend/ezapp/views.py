@@ -1,19 +1,17 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_str
 
 
 class RegisterView(generics.CreateAPIView):
@@ -62,7 +60,8 @@ class UserProfileView(APIView):
 
 
 
-@api_view(['GET'])
+@api_view(["GET"])
+@permission_classes([AllowAny])
 def activate_account(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -73,10 +72,14 @@ def activate_account(request, uidb64, token):
     if default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        Response({"message": "Konto aktywowane!"})
+
+        # Możesz odesłać respons JSON:
+        # return Response({"message": "Konto aktywowane!"})
+
+        # Albo przekierować na frontend:
         return redirect("http://localhost:3000/login")
-    else:
-        return Response({"error": "Nieprawidłowy lub wygasły token"}, status=400)
+
+    return Response({"error": "Nieprawidłowy lub wygasły token"}, status=400)
 
 
 

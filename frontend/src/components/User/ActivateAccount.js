@@ -6,7 +6,7 @@ export default function ActivateAccount() {
   const [status, setStatus] = useState("pending");
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/activate/${uid}/${token}/`)
+    fetch(`http://localhost:8000/api/activate/${uid}/${token}/`,{ credentials: "include"})
       .then((res) => {
         if (res.ok) setStatus("success");
         else setStatus("error");
