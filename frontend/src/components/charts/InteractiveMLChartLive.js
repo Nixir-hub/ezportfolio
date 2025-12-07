@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import { useLanguage } from "../contexts/language_context_provider";
 
-
 const InteractiveMLChartLive = () => {
+
   const svgRef = useRef();
   const lossRef = useRef();
 
@@ -11,20 +11,21 @@ const InteractiveMLChartLive = () => {
   const [grid, setGrid] = useState(null);
   const [line, setLine] = useState(null);
 
-  const [mode, setMode] = useState("classify");
-
+  const [activeTab, setActiveTab] = useState("classify");
   const [selectedLabel, setSelectedLabel] = useState(0);
 
   const [epochs, setEpochs] = useState(200);
   const [lr, setLR] = useState(0.01);
 
   const [regFunction, setRegFunction] = useState("linear");
-
   const [lossHistory, setLossHistory] = useState([]);
+
   const { t } = useLanguage();
 
-  const width = 800;
-  const height = 600;
+  // RESPONSIVE WIDTH
+  const width = window.innerWidth < 900 ? window.innerWidth - 40 : 800;
+  const height = 500;
+
   const margin = { top: 40, right: 40, bottom: 40, left: 40 };
 
   const xScale = d3.scaleLinear().domain([-10, 10]).range([margin.left, width - margin.right]);
@@ -33,13 +34,12 @@ const InteractiveMLChartLive = () => {
   const colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#9467bd"];
 
   // ================================
-  // RYSOWANIE GŁÓWNEGO WYKRESU
+  // DRAW MAIN CHART
   // ================================
   const drawChart = () => {
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    // osie
     svg.append("g")
       .attr("transform", `translate(0, ${height - margin.bottom})`)
       .call(d3.axisBottom(xScale));
@@ -48,8 +48,8 @@ const InteractiveMLChartLive = () => {
       .attr("transform", `translate(${margin.left}, 0)`)
       .call(d3.axisLeft(yScale));
 
-    // --- CLASSIFY GRID ---
-    if (grid && mode === "classify") {
+    // --- CLASSIFICATION BACKGROUND ---
+    if (grid && activeTab === "classify") {
       const res = grid.res;
       const cellW = (width - margin.left - margin.right) / res;
       const cellH = (height - margin.top - margin.bottom) / res;
@@ -75,18 +75,20 @@ const InteractiveMLChartLive = () => {
     }
 
     // --- REGRESSION LINE ---
-    if (line && mode === "regression") {
-      const path = d3.line()
-        .x(d => xScale(d.x))
-        .y(d => yScale(d.y));
+    if (Array.isArray(line) && line.length > 1 && activeTab === "regression") {
+
+      const lineGen = d3.line()
+        .x(d => xScale(Number(d.x)))
+        .y(d => yScale(Number(d.y)));
 
       svg.append("path")
         .datum(line)
-        .attr("d", path)
+        .attr("d", lineGen)
         .attr("stroke", "red")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 3)
         .attr("fill", "none");
     }
+
 
     // --- POINTS ---
     svg.append("g")
@@ -96,7 +98,7 @@ const InteractiveMLChartLive = () => {
       .attr("cx", d => xScale(d.x))
       .attr("cy", d => yScale(d.y))
       .attr("r", 6)
-      .attr("fill", d => (mode === "classify" ? colors[d.label] : "blue"))
+      .attr("fill", d => (activeTab === "classify" ? colors[d.label] : "blue"))
       .attr("stroke", "black")
       .attr("stroke-width", 1);
   };
@@ -137,10 +139,10 @@ const InteractiveMLChartLive = () => {
   useEffect(() => {
     drawChart();
     drawLoss();
-  }, [points, grid, line, lossHistory, mode]);
+  }, [points, grid, line, lossHistory, activeTab]);
 
   // ================================
-  // CLICK -> ADD POINT
+  // ADD POINT BY CLICK
   // ================================
   const handleClick = (event) => {
     const [mx, my] = d3.pointer(event);
@@ -196,12 +198,15 @@ const InteractiveMLChartLive = () => {
   // TRAINING
   // ================================
   const trainModel = async () => {
-    if (!points.length) return alert("Add points!");
+    if (!points.length) {
+      alert("Add points!");
+      return;
+    }
 
     setLossHistory([]);
 
     try {
-      if (mode === "classify") {
+      if (activeTab === "classify") {
         const res = await fetch("http://localhost:8001/api/ml/classify/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -213,127 +218,195 @@ const InteractiveMLChartLive = () => {
         setLossHistory(data.loss_history || []);
       }
 
-    if (mode === "regression") {
-      const res = await fetch("http://localhost:8001/api/ml/regression/", {
+    if (activeTab === "regression") {
+      let endpoint = "http://localhost:8001/api/ml/regression/";
+
+      if (regFunction === "linear") endpoint = "http://localhost:8001/api/ml/regression/";
+      if (regFunction === "poly")   endpoint = "http://localhost:8001/api/ml/regression/poly/";
+      if (regFunction === "sin")    endpoint = "http://localhost:8001/api/ml/regression/sin/";
+
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          points,
-          epochs,
-          lr,
-          regFunction
-        })
+        body: JSON.stringify({ points, epochs, lr })
       });
 
-      if (!res.ok) {
-        const txt = await res.text();
-        console.error("Error regression:", txt);
-        alert("Backend regression error.");
-        return;
-      }
-
       const data = await res.json();
+      console.log("DATA FROM BACKEND:", data);
 
-      // backend return:  s (slope), b (bias), l (loss), e (epochs)
-      const s = data.s;
-      const b = data.b;
-
-      // zbuduj linię
-      const [xmin, xmax] = xScale.domain();
-      setLine([
-        { x: xmin, y: s * xmin + b },
-        { x: xmax, y: s * xmax + b }
-      ]);
-
-      // if backend return one loss (l)
-    if (Array.isArray(data.loss_history)) {
-      setLossHistory(data.loss_history);
-    } else if (typeof data.l === "number") {
-      setLossHistory([data.l]); // fallback
-    }
-
-      // if backend return history strat
-      if (Array.isArray(data.loss_history)) {
-        setLossHistory(data.loss_history);
+      // Tworzymy linię z backendu
+      if (data.xs && data.ys) {
+        const linePoints = data.xs.map((x, i) => ({ x, y: data.ys[i] }));
+        setLine(linePoints);
       }
+
+      setLossHistory(data.loss_history || []);
     }
 
 
-    } catch (e) {
-      console.error(e);
+
+    } catch (err) {
+      console.error(err);
       alert("Backend Error!");
     }
   };
 
   return (
-    <div style={{ display: "flex", gap: 20 }}>
-      <div>
-        <div style={{ marginBottom: 10 }}>
-          <label>Tryb:</label>
-          <select value={mode} onChange={e => { setMode(e.target.value); setGrid(null); setLine(null); }}>
-            <option value="classify">{t("classification")}</option>
-            <option value="regression">{t("regression")}</option>
-          </select>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        padding: 10
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 900,
+          background: "#fff",
+          padding: 20,
+          borderRadius: 12,
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+        }}
+      >
 
-          {mode === "classify" && (
-            <span style={{ marginLeft: 10 }}>
-              <label>Klasa: </label>
-              <select value={selectedLabel} onChange={e => setSelectedLabel(Number(e.target.value))}>
+        {/* TABS */}
+        <div style={{ display: "flex", marginBottom: 20 }}>
+          <button
+            onClick={() => setActiveTab("classify")}
+            style={{
+              flex: 1,
+              padding: 10,
+              background: activeTab === "classify" ? "#007bff" : "#eee",
+              color: activeTab === "classify" ? "#fff" : "#333",
+              border: "none",
+              borderRadius: "8px 0 0 8px"
+            }}
+          >
+            Classification
+          </button>
+
+          <button
+            onClick={() => setActiveTab("regression")}
+            style={{
+              flex: 1,
+              padding: 10,
+              background: activeTab === "regression" ? "#007bff" : "#eee",
+              color: activeTab === "regression" ? "#fff" : "#333",
+              border: "none",
+              borderRadius: "0 8px 8px 0"
+            }}
+          >
+            Regression
+          </button>
+        </div>
+
+        {/* PARAMETERS */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 15
+          }}
+        >
+          <div>
+            <label>Epochs: </label>
+            <input
+              type="number"
+              min="1"
+              value={epochs}
+              onChange={e => setEpochs(Number(e.target.value))}
+              style={{ width: 80 }}
+            />
+
+            <label style={{ marginLeft: 10 }}>LR: </label>
+            <input
+              type="number"
+              step="0.001"
+              value={lr}
+              onChange={e => setLR(Number(e.target.value))}
+              style={{ width: 80 }}
+            />
+          </div>
+
+          {activeTab === "classify" && (
+            <div>
+              <label>Class: </label>
+              <select
+                value={selectedLabel}
+                onChange={e => setSelectedLabel(Number(e.target.value))}
+              >
                 <option value={0}>0</option>
                 <option value={1}>1</option>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
               </select>
-            </span>
+            </div>
           )}
 
-          {mode === "regression" && (
-            <span style={{ marginLeft: 10 }}>
-              <label>Model: </label>
-              <select value={regFunction} onChange={e => setRegFunction(e.target.value)}>
+          {activeTab === "regression" && (
+            <div>
+              <label>Model:</label>
+              <select
+                value={regFunction}
+                onChange={e => setRegFunction(e.target.value)}
+                style={{ marginLeft: 10 }}
+              >
                 <option value="linear">Linear</option>
                 <option value="poly">Polynomial</option>
                 <option value="sin">Sine</option>
               </select>
-            </span>
+            </div>
           )}
+
+          {/* PRESETS */}
+          <div>
+            <strong>Presets:</strong>
+            <button onClick={generateMoon} style={{ marginLeft: 10 }}>Moon</button>
+            <button onClick={generateSun} style={{ marginLeft: 5 }}>Sun</button>
+            <button onClick={generateLinear} style={{ marginLeft: 5 }}>Linear</button>
+          </div>
         </div>
 
-        {/* Controls */}
-        <div>
-          <label>Epochs: </label>
-          <input type="number" min="1" max="2000" value={epochs} onChange={e => setEpochs(Number(e.target.value))} />
-
-          <label style={{ marginLeft: 10 }}>LR: </label>
-          <input type="number" step="0.001" value={lr} onChange={e => setLR(Number(e.target.value))} />
+        {/* SVG CHART */}
+        <div style={{ marginTop: 20 }}>
+          <svg
+            ref={svgRef}
+            width={width}
+            height={height}
+            onClick={handleClick}
+            style={{
+              border: "1px solid #aaa",
+              background: "#f8f8f8",
+              cursor: "crosshair",
+              width: "100%",
+            }}
+              preserveAspectRatio="xMidYMid meet"
+            viewBox={`0 0 ${width} ${height}`}
+          />
         </div>
 
-        {/* SVG */}
-        <svg
-          ref={svgRef}
-          width={width}
-          height={height}
-          onClick={handleClick}
-          style={{ border: "1px solid #aaa", background: "#f8f8f8", cursor: "crosshair", marginTop: 10 }}
-        />
-
-        {/* Buttons */}
-        <div style={{ marginTop: 10 }}>
-          <button onClick={trainModel}>{t('train')}</button>
-          <button onClick={() => { setPoints([]); setLine(null); setGrid(null); setLossHistory([]); }} style={{ marginLeft: 10 }}>Reset</button>
+        {/* BUTTONS */}
+        <div style={{ display: "flex", gap: 10, marginTop: 15 }}>
+          <button onClick={trainModel}>Train</button>
+          <button
+            onClick={() => {
+              setPoints([]);
+              setLine(null);
+              setGrid(null);
+              setLossHistory([]);
+            }}
+          >
+            Reset
+          </button>
         </div>
 
-        {/* Presets */}
-        <div style={{ marginTop: 10 }}>
-          <strong>Preset:</strong>
-          <button onClick={generateMoon} style={{ marginLeft: 10 }}>Moon</button>
-          <button onClick={generateSun} style={{ marginLeft: 5 }}>Sun</button>
-          <button onClick={generateLinear} style={{ marginLeft: 5 }}>Linear</button>
+        {/* LOSS PLOT */}
+        <div style={{ marginTop: 20 }}>
+          <svg ref={lossRef} width="100%" height="200" />
         </div>
-      </div>
 
-      <div>
-        <svg ref={lossRef} width={width} height={200} style={{ border: "1px solid #ccc" }} />
       </div>
     </div>
   );

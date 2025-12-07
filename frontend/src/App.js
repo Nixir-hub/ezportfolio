@@ -9,6 +9,7 @@ import PasswordReset from "./components/User/PasswordReset";
 import {LanguageProvider} from "./components/contexts/language_context_provider";
 import ProtectedRoute from "./components/contexts/ProtectedRoute";
 import InteractiveMLChartLive from "./components/charts/InteractiveMLChartLive";
+import PersonDetect from "./components/person_detecion/PersonDetect";
 
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/dashboard" element={<ProtectedRoute>Dashboard</ProtectedRoute>}/>
         <Route path="/model" element={<ProtectedRoute>Model</ProtectedRoute>}/>
           <Route path="/charts" element={<ProtectedRoute><InteractiveMLChartLive /></ProtectedRoute>}/>
+          <Route path="/aiDetection" element={<ProtectedRoute><PersonDetect /></ProtectedRoute>}/>
         <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>}/>
         <Route path="/password-reset" element={<PasswordReset />} />
       </Routes>

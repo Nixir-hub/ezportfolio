@@ -25,6 +25,12 @@ const translations = {
     classification: 'Classification',
     regression: "Regression",
     train:  'Training',
+    model: 'Model',
+    epochs: 'Epochs',
+    class: "Class",
+    numberPerson: 'Counter',
+    humanDetection: 'AI| Detection people on picture',
+    download:'Download',
 
     // Messages
     loginSuccess: 'Login successful',
@@ -75,6 +81,13 @@ const translations = {
     classification: 'Klasyfikacja',
     regression: "Regresja",
     train:  'Trenuj',
+    model: 'Model',
+    epochs: 'Epoki',
+    class: "Klasy",
+    numberPerson: 'Liczba osób',
+    humanDetection: 'AI| Wykrywanie osób na obrazie',
+    download: "Pobierz",
+
     // Messages
     loginSuccess: 'Logowanie pomyślne',
     loginError: 'Błąd logowania',
