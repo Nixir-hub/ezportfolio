@@ -37,20 +37,24 @@ const translations = {
     loginError: 'Login failed',
     registerSuccess: 'Registration successful',
     forgotPassword: 'Forgot your password?',
-    slide1_title: "Welcome to my portfolio",
-    slide1_text: "Example description of the first slide",
+    slide1_title: "Hi, I'm Ernest Zduńczyk 👋",
+    slide1_text: "Junior Python Developer. I build web applications with Django and Flask, create REST APIs, and develop open-source projects. Looking for my first commercial role to grow as a developer.",
 
-    slide2_title: "Projects and experience",
-    slide2_text: "Description of the second slide",
 
-    slide3_title: "Contact & information",
-    slide3_text: "Description of the third slide",
+    slide2_title: "Interactive Machine Learning Projects",
+    slide2_text: "After logging in, explore ML tools: dynamic regression & classification charts, data visualizations, and intelligent person silhouette detection — all working directly in your browser.",
+
+
+    slide3_title: "Let’s stay connected",
+    slide3_text: "If you have questions about my projects or want to collaborate, feel free to contact me through GitHub, LinkedIn, or email — all links are available below.",
 
     about_me_heading: "About me",
     experience_title: "Experience",
-    experience_text: "Several years of experience in building web applications.",
+    experience_text: "I build web applications using Django, Flask and React.js, create REST APIs, work with SQL, Docker and Git. I develop real open-source projects such as an e-commerce shop, diet planner app, and a library system with JWT and unit tests.",
+
     projects_title: "Projects",
-    projects_text: "Project portfolio in React, Django, AI and more.",
+    projects_text: "A full-stack application built with Django and React.\n" +
+        "After logging in, you can train machine-learning models, generate regression and classification charts, and use a people-detection module to analyze images. The system runs on a custom REST API with a full user panel",
     contact_title: "Contact",
     contact_text: "Email, LinkedIn, GitHub — all in one place.",
     // Add more translations as needed
@@ -93,20 +97,23 @@ const translations = {
     loginError: 'Błąd logowania',
     registerSuccess: 'Rejestracja pomyślna',
     forgotPassword: 'Nie pamietasz hasłą?',
-    slide1_title: "Witaj na moim portfolio",
-    slide1_text: "Przykładowy opis pierwszego slajdu",
+    slide1_title: "Cześć, jestem Ernest Zduńczyk 👋",
+    slide1_text: "Junior Python Developer. Tworzę aplikacje webowe w Django, Flask i React.js, buduję REST API oraz rozwijam projekty open-source. Szukam pierwszej komercyjnej roli, aby dalej się rozwijać.",
 
-    slide2_title: "Projekty i doświadczenie",
-    slide2_text: "Opis drugiego slajdu",
 
-    slide3_title: "Kontakt i informacje",
-    slide3_text: "Opis trzeciego slajdu",
+    slide2_title: "Projekty i Machine Learning",
+    slide2_text: "Po zalogowaniu możesz przetestować moje projekty z uczenia maszynowego: generowanie wykresów regresji i klasyfikacji oraz rozpoznawanie sylwetek osób na zdjęciu. Wszystkie funkcje są w pełni zaimplementowane i działają w aplikacji.",
+
+
+    slide3_title: "Pozostańmy w kontakcie",
+    slide3_text: "Chcesz zobaczyć więcej, porozmawiać o projektach lub zapytać o wdrożenia? Zapraszam — GitHub, LinkedIn i email czekają na Twoją wiadomość.",
 
     about_me_heading: "O mnie",
     experience_title: "Doświadczenie",
-    experience_text: "Kilka lat doświadczenia w tworzeniu aplikacji webowych.",
+    experience_text: "Tworzę aplikacje webowe w Django i Flask, buduję REST API, pracuję z SQL, Dockerem i Git. Rozwijam realne projekty open-source: sklep e-commerce, aplikację dietetyczną oraz system biblioteczny z JWT i testami jednostkowymi.",
     projects_title: "Projekty",
-    projects_text: "Portfolio projektów w React, Django, AI i innych technologiach.",
+    projects_text: "Aplikacja full-stack stworzona w Django i React.\n" +
+        "Po zalogowaniu można trenować modele uczenia maszynowego, generować wykresy regresji i klasyfikacji oraz korzystać z modułu rozpoznawania sylwetek osób na zdjęciu. Całość działa na własnym API REST i panelu użytkownika. Zapraszam do kontaktu.",
     contact_title: "Kontakt",
     contact_text: "Email, LinkedIn, GitHub — wszystko w jednym miejscu.",
     // Add more translations as needed

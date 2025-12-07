@@ -49,16 +49,14 @@ export default function Navbar() {
         {user && (
           <>
             <li className="nav-item">
-              <Link className="nav-link" to="/user">{t('profil')}</Link>
-            </li>
-
-            <li className="nav-item">
               <Link className="nav-link" to="/charts">{t('MLChart')}</Link>
             </li>
                   <li className="nav-item">
               <Link className="nav-link" to="/aiDetection">{t('humanDetection')}</Link>
             </li>
-
+            <li className="nav-item">
+              <Link className="nav-link" to="/user">{t('profil')}</Link>
+            </li>
             <li className="nav-item">
               <Logout />
             </li>
