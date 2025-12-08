@@ -1,0 +1,130 @@
+import React, { useState, useEffect } from "react";
+import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
+import { useLanguage } from "../contexts/language_context_provider";
+import mlBackground from "../../assets/portfolioslidebackground.png"; // <-- TWÓJ SCREENSHOT
+
+export default function Home() {
+  const { t } = useLanguage();
+
+  const slides = [
+    {
+      title: t("slide1_title"),
+      text: t("slide1_text"),
+      bg: "https://via.placeholder.com/1200x400/333333/FFFFFF?text=Welcome" // minimalistyczny
+    },
+    {
+      title: t("slide2_title"),
+      text: t("slide2_text"),
+      bg: mlBackground // <-- ustawiamy screenshot
+    },
+    {
+      title: t("slide3_title"),
+      text: t("slide3_text"),
+      bg: "linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)" // gradient pod kontakt
+    },
+  ];
+
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight * 0.6);
+
+  useEffect(() => {
+    const handleResize = () => setWindowHeight(window.innerHeight * 0.6);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div>
+      <Carousel fade>
+        {slides.map((slide, index) => (
+          <Carousel.Item key={index}>
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{
+                height: `${windowHeight}px`,
+                backgroundImage: slide.bg.includes("linear-gradient")
+                  ? slide.bg // gradient bez wrappera
+                  : `
+                    linear-gradient(
+                      rgba(0,0,0,0.55),
+                      rgba(0,0,0,0.55)
+                    ), 
+                    url(${slide.bg})
+                  `,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="text-center text-white p-3 rounded">
+                <h3>{slide.title}</h3>
+                <p>{slide.text}</p>
+              </div>
+            </div>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+
+      {/* SEKCJE */}
+      <Container className="mt-5">
+        <h2 className="text-center mb-4">{t("about_me_heading")}</h2>
+
+        <Row>
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{t("experience_title")}</Card.Title>
+                <Card.Text>{t("experience_text")}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{t("projects_title")}</Card.Title>
+                <Card.Text>{t("projects_text")}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{t("contact_title")}</Card.Title>
+                <Card.Text>{t("contact_text")}</Card.Text>
+
+                <div className="d-flex justify-content-around mt-3">
+                  <a
+                    href="https://github.com/Nixir-hub"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-dark fs-3"
+                  >
+                    <i className="bi bi-github"></i>
+                  </a>
+
+                  <a
+                    href="https://linkedin.com/in/ernest-zdunczyk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary fs-3"
+                  >
+                    <i className="bi bi-linkedin"></i>
+                  </a>
+
+                  <a
+                    href="mailto:ernestzdunczyk@gmail.com"
+                    className="text-danger fs-3"
+                  >
+                    <i className="bi bi-envelope-fill"></i>
+                  </a>
+                </div>
+
+              </Card.Body>
+            </Card>
+          </Col>
+
+        </Row>
+      </Container>
+    </div>
+  );
+}

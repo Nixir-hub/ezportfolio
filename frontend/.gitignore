@@ -1,0 +1,65 @@
+# ---- Python / Django ----
+
+**pycache**/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.log
+*.pot
+*.py[cod]
+*.swp
+*.swo
+*.env
+.env
+venv/
+env/
+*.egg-info/
+*.egg
+media/
+staticfiles/
+
+# Django migrations (opcjonalnie można zostawić w repo)
+
+**/migrations/
+!**/migrations/**init**.py
+
+# ---- React / Node ----
+
+node_modules/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ---- IDE / OS ----
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Test / Coverage ----
+
+.coverage
+*.cover
+htmlcov/
+pytest_cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.log
+*.pot
+*.mo
+~*  # temporary files
+
+# ---- Local env files ----
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
