@@ -124,7 +124,7 @@ We welcome contributions!
 
 ## License
 This project is for **educational purposes only**.  
-[Specify your license if needed, e.g., MIT License]
+
 
 ---
 
