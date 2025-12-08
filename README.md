@@ -128,7 +128,7 @@ It is not for commercial use without prior permission.
 
 ## License
 
-This project is provided for **educational and portfolio purposes**. Specify your license if needed (e.g., MIT License).
+This project is provided for **educational and portfolio purposes**.
 
 ## Acknowledgements
 
