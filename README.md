@@ -17,7 +17,7 @@ This project serves both as a **learning tool** and as a **professional portfoli
   * NumPy
   * SciPy
   * Scikit-learn
-  * OpenCV (cv2)
+  * OpenCV (cv2)/YOLOv8
   * Matplotlib
 
 **Note:** There are **two Django backends**:
