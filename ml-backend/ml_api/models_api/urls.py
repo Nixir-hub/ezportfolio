@@ -8,9 +8,9 @@ urlpatterns = [
     path("split/", train_test_split_view),
     path("train/", train_model),
     path("predict/", predict),
-    path("ml/regression/", train_regression),
-    path("ml/regression/sin/", train_regression_sin),
-    path("ml/regression/poly/", train_regression_poly),
-    path("ml/classify/", classify_train),
+    path("regression/", train_regression),
+    path("regression/sin/", train_regression_sin),
+    path("regression/poly/", train_regression_poly),
+    path("classify/", classify_train),
 
 ]

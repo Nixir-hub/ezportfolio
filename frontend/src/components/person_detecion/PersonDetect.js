@@ -15,7 +15,7 @@ const formData = new FormData();
 formData.append("image", file);
 
 try {
-  const res = await fetch("http://localhost:8001/api/cv/person-detect/", {
+  const res = await fetch(`/ml/cv/person-detect/`, {
     method: "POST",
     body: formData,
   });

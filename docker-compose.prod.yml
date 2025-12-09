@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: ezportfolio-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: myportfolio_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    expose:
+        - "8000"
+
+  ml-backend:
+    build:
+      context: ./ml-backend/ml_api
+      dockerfile: Dockerfile
+    container_name: ml-backend
+    restart: always
+    env_file:
+      - ./ml-backend/ml_api/.env
+    depends_on:
+      - db
+    expose:
+      - "8001"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ezportfolio-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - ml-backend
+
+
+volumes:
+  db_data:

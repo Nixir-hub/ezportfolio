@@ -8,7 +8,9 @@ RUN npm install
 
 # kopiujemy cały projekt
 COPY . .
-RUN npm run build
+ARG REACT_APP_USER_API
+ARG REACT_APP_ML_API
+RUN REACT_APP_USER_API=$REACT_APP_USER_API REACT_APP_ML_API=$REACT_APP_ML_API npm run build
 
 # --- PRODUCTION STAGE ---
 FROM nginx:alpine

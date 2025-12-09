@@ -10,7 +10,6 @@ const InteractiveMLChartLive = () => {
   const [points, setPoints] = useState([]);
   const [grid, setGrid] = useState(null);
   const [line, setLine] = useState(null);
-
   const [activeTab, setActiveTab] = useState("classify");
   const [selectedLabel, setSelectedLabel] = useState(0);
 
@@ -207,7 +206,8 @@ const InteractiveMLChartLive = () => {
 
     try {
       if (activeTab === "classify") {
-        const res = await fetch("http://localhost:8001/api/ml/classify/", {
+
+        const res = await fetch(`/ml/classify/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ points, epochs, lr, grid_res: 80 })
@@ -219,11 +219,11 @@ const InteractiveMLChartLive = () => {
       }
 
     if (activeTab === "regression") {
-      let endpoint = "http://localhost:8001/api/ml/regression/";
+      let endpoint = `/ml/regression/`;
 
-      if (regFunction === "linear") endpoint = "http://localhost:8001/api/ml/regression/";
-      if (regFunction === "poly")   endpoint = "http://localhost:8001/api/ml/regression/poly/";
-      if (regFunction === "sin")    endpoint = "http://localhost:8001/api/ml/regression/sin/";
+      if (regFunction === "linear") endpoint = `/ml/regression/`;
+      if (regFunction === "poly")   endpoint = `/ml/regression/poly/`;
+      if (regFunction === "sin")    endpoint = `/ml/regression/sin/`;
 
       const res = await fetch(endpoint, {
         method: "POST",

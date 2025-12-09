@@ -18,7 +18,6 @@ export default function UserPanel() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
-
   // Usunięcie konta
   const [deleteMessage, setDeleteMessage] = useState("");
 
@@ -26,7 +25,7 @@ export default function UserPanel() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await apiFetch("http://localhost:8000/user/");
+        const res = await apiFetch(`/api/user/`);
         if (res.ok) {
           const data = await res.json();
           setUser(data);
@@ -46,7 +45,7 @@ export default function UserPanel() {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     try {
-      const res = await apiFetch("http://localhost:8000/change-password/", {
+      const res = await apiFetch(`/api/change-password/`, {
         method: "POST",
         body: JSON.stringify({ old_password: oldPassword, new_password: newPassword }),
       });
@@ -64,7 +63,7 @@ export default function UserPanel() {
     if (!window.confirm("Are you sure to delete account?")) return;
 
     try {
-      const res = await apiFetch("http://localhost:8000/delete-account/", { method: "DELETE" });
+      const res = await apiFetch(`/api/delete-account/`, { method: "DELETE" });
       const data = await res.json();
       setDeleteMessage(data.message);
       logout();

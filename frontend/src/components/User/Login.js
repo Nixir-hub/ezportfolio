@@ -15,7 +15,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8000/api/token/", {
+      const res = await fetch(`/api/token/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -24,7 +24,7 @@ export default function Login() {
       const data = await res.json();
       if (res.ok) {
         login(data);        // zapis tokenów + user w kontekście
-        navigate("/user");
+        navigate("/");
       } else {
         setMessage(data.detail || "Błędne dane logowania");
       }
@@ -65,7 +65,7 @@ export default function Login() {
       </form>
 
       <div className="mt-3 text-center">
-        <Link to="/password-reset">{t("forgotPassword")}</Link>
+        <Link to="/forgot-password">{t("forgotPassword")}</Link>
       </div>
       {message && <div className="mt-3 alert alert-info">{message}</div>}
     </div>
