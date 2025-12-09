@@ -25,7 +25,7 @@ function App() {
         <Route path="/user" element={<ProtectedRoute><UserPanel /></ProtectedRoute>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-          <Route path="/activate/:uidb64/:token" element={<ProtectedRoute><ActivateAccount /></ProtectedRoute>} />
+          <Route path="/activate/:uidb64/:token" element={<ActivateAccount />} />
         <Route path="/dashboard" element={<ProtectedRoute>Dashboard</ProtectedRoute>}/>
         <Route path="/model" element={<ProtectedRoute>Model</ProtectedRoute>}/>
         <Route path="/forgot-password" element={<PasswordReset /> }/>
@@ -33,7 +33,6 @@ function App() {
           <Route path="/charts" element={<ProtectedRoute><InteractiveMLChartLive /></ProtectedRoute>}/>
           <Route path="/aiDetection" element={<ProtectedRoute><PersonDetect /></ProtectedRoute>}/>
         <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>}/>
-        <Route path="/password-reset" element={<PasswordReset />} />
       </Routes>
     </LanguageProvider>
     </>

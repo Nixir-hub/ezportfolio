@@ -17,8 +17,6 @@ export default function ActivateAccount() {
         if (res.ok) {
           setStatus("success");
           setMessage("Account activated successfully.");
-
-          setTimeout(() => navigate("/login"), 2500);
         } else {
           setStatus("error");
           setMessage(data.error || "Incorrect token.");
@@ -26,15 +24,55 @@ export default function ActivateAccount() {
       })
       .catch(() => {
         setStatus("error");
-        setMessage("Error with connection to database.");
+        setMessage("Error with connection to backend.");
       });
   }, [uidb64, token]);
 
   return (
-    <div style={{ padding: "20px" }}>
-      {status === "pending" && <p>Activating account</p>}
-      {status === "success" && <p>{message}</p>}
-      {status === "error" && <p style={{ color: "red" }}>{message}</p>}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        background: "#f5f5f5",
+        padding: "20px",
+      }}
+    >
+      <div
+        style={{
+          background: "#fff",
+          padding: "30px 40px",
+          borderRadius: "12px",
+          boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
+          maxWidth: "400px",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        {status === "pending" && <p>Activating account...</p>}
+        {status === "success" && (
+          <>
+            <p style={{ color: "green" }}>{message}</p>
+            <button
+              onClick={() => navigate("/login")}
+              style={{
+                marginTop: "20px",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                border: "none",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              Go to Login
+            </button>
+          </>
+        )}
+        {status === "error" && <p style={{ color: "red" }}>{message}</p>}
+      </div>
     </div>
   );
 }

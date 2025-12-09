@@ -1,20 +1,25 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
 
+
+class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ["username", "email", "password"]
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
 
     def create(self, validated_data):
-        # tworzymy użytkownika nieaktywnego
         user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password'],
-            is_active=False  # ważne: konto nieaktywne do momentu aktywacji
+            username=validated_data["username"],
+            email=validated_data["email"],
+            password=validated_data["password"],
+            is_active=False,  # konto nieaktywne do czasu kliknięcia w link
         )
         return user
 

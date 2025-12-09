@@ -106,34 +106,61 @@ const InteractiveMLChartLive = () => {
   // LOSS
   // ================================
   const drawLoss = () => {
-    const svg = d3.select(lossRef.current);
-    svg.selectAll("*").remove();
+  const svg = d3.select(lossRef.current);
+  svg.selectAll("*").remove();
 
-    if (!lossHistory.length) return;
+  if (!lossHistory.length) return;
 
-    const h = 200;
-    const x = d3.scaleLinear().domain([0, lossHistory.length - 1]).range([margin.left, width - margin.right]);
-    const y = d3.scaleLinear().domain([0, d3.max(lossHistory)]).range([h - margin.bottom, margin.top]);
+  const h = 200;
+  const x = d3.scaleLinear().domain([0, lossHistory.length - 1]).range([margin.left, width - margin.right]);
+  const y = d3.scaleLinear().domain([0, d3.max(lossHistory)]).range([h - margin.bottom, margin.top]);
 
-    const lineGen = d3.line()
-      .x((d, i) => x(i))
-      .y(d => y(d));
+  const lineGen = d3.line()
+    .x((d, i) => x(i))
+    .y(d => y(d));
 
-    svg.append("path")
-      .datum(lossHistory)
-      .attr("d", lineGen)
-      .attr("stroke", "crimson")
-      .attr("fill", "none")
-      .attr("stroke-width", 2);
+  //  loss line
+  svg.append("path")
+    .datum(lossHistory)
+    .attr("d", lineGen)
+    .attr("stroke", "crimson")
+    .attr("fill", "none")
+    .attr("stroke-width", 2);
 
-    svg.append("g")
-      .attr("transform", `translate(0, ${h - margin.bottom})`)
-      .call(d3.axisBottom(x));
+  // axis
+  svg.append("g")
+    .attr("transform", `translate(0, ${h - margin.bottom})`)
+    .call(d3.axisBottom(x).ticks(5));
+  svg.append("g")
+    .attr("transform", `translate(${margin.left}, 0)`)
+    .call(d3.axisLeft(y).ticks(5));
 
-    svg.append("g")
-      .attr("transform", `translate(${margin.left}, 0)`)
-      .call(d3.axisLeft(y));
-  };
+  // name of axis
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", (width + margin.left - margin.right) / 2)
+    .attr("y", h - 5)
+    .text("Epochs")
+    .style("font-size", "12px")
+    .style("fill", "#333");
+
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("transform", `translate(15, ${h/2}) rotate(-90)`)
+    .text("Loss")
+    .style("font-size", "12px")
+    .style("fill", "#333");
+
+  // Title
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", (width + margin.left - margin.right) / 2)
+    .attr("y", margin.top / 2)
+    .text("Training Loss")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .style("fill", "#333");
+};
 
   useEffect(() => {
     drawChart();

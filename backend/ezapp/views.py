@@ -82,10 +82,9 @@ def activate_account(request, uidb64, token):
     if default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        # przekierowanie do frontendu
-        return redirect(f"{FRONTEND_URL}/api/login")
+        return Response({"message": "Account activated successfully."})
 
-    return Response({"error": "Invalid token."}, status=400)
+    return Response({"error": "Invalid or expired token."}, status=400)
 
 
 
