@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ["http://127.0.0.1:8000", "http://localhost:8000", "127.0.0.1", "localhost", "backend"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "backend"]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -159,16 +159,29 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
-SESSION_COOKIE_SAMESITE = "None"
-SESSION_COOKIE_SECURE = False   # jeśli używasz http://localhost, MUSI być False
-CSRF_COOKIE_SAMESITE = "None"
-CSRF_COOKIE_SECURE = False
+# CORS
+CORS_ALLOW_ALL_ORIGINS = False  # NEVER True in production
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "https://ezportfolio.eu",
+    "https://www.ezportfolio.eu",
 ]
+
+# Sesja
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = True          # only HTTPS
+
+# CSRF
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "https://ezportfolio.eu",
+    "https://www.ezportfolio.eu",
 ]
+
+# ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    "ezportfolio.eu",
+    "www.ezportfolio.eu",
+]
+

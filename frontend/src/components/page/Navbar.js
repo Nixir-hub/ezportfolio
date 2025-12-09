@@ -27,7 +27,7 @@ export default function Navbar() {
     >
       <span className="navbar-toggler-icon"></span>
     </button>
-
+    <Link to="/about" style={{ color: "#fff", textDecoration: "none" }}>{t("about site")}</Link>
     {/* 🔥 NAV MENU — musi mieć ID */}
     <div className="collapse navbar-collapse" id="mainNavbar">
       <LanguageSwitcher />

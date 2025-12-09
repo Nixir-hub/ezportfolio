@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["http://127.0.0.1:8001", "http://localhost:8001", "127.0.0.1", "localhost", "ml-backend"]
+ALLOWED_HOSTS = [ "127.0.0.1", "localhost", "ml-backend"]
 
 
 # Application definition
@@ -131,7 +131,29 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
 
+# CORS
+CORS_ALLOW_ALL_ORIGINS = False  # NEVER True in production
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://ezportfolio.eu",
+    "https://www.ezportfolio.eu",
+]
+
+# Sesja
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = True          # only HTTPS
+
+# CSRF
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://ezportfolio.eu",
+    "https://www.ezportfolio.eu",
+]
+
+# ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    "ezportfolio.eu",
+    "www.ezportfolio.eu",
+]

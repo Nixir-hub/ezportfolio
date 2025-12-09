@@ -5,6 +5,7 @@ import Logout from "./components/User/Logout";
 import UserPanel from "./components/User/User";
 import Navbar from "./components/page/Navbar";
 import Home from "./components/page/Home";
+import About from "./components/page/About";
 import PasswordReset from "./components/User/PasswordReset";
 import PasswordResetActivation from "./components/User/PasswordResetActivation";
 import {LanguageProvider} from "./components/contexts/language_context_provider";
@@ -26,7 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
           <Route path="/activate/:uidb64/:token" element={<ActivateAccount />} />
-        <Route path="/dashboard" element={<ProtectedRoute>Dashboard</ProtectedRoute>}/>
+        <Route path="/about" element={<About/>}/>
         <Route path="/model" element={<ProtectedRoute>Model</ProtectedRoute>}/>
         <Route path="/forgot-password" element={<PasswordReset /> }/>
         <Route path="/reset-password/:uid/:token" element={<PasswordResetActivation />}/>

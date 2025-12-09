@@ -1,142 +1,245 @@
-# EzPortfolio - Interactive Machine Learning Portfolio
+# EzPortfolio – Interactive Machine Learning Portfolio
 
-## Project Overview
+## ⭐ Overview
 
-EzPortfolio is an **educational and hiring-focused interactive machine learning portfolio** project built using Django for the backend and React for the frontend. It showcases machine learning models, visualizations, and human detection in an engaging and user-friendly manner.
+**EzPortfolio** is an interactive, production-ready **machine learning portfolio application** built with **Django**, **React**, and **Docker**.  
+It showcases full-stack engineering and ML integration through:
 
-This project serves both as a **learning tool** and as a **professional portfolio** to demonstrate full-stack development, machine learning, and interactive visualization skills to potential employers.
+- real ML model training,
+- live charts and visualizations,
+- person detection in images,
+- secure user authentication,
+- multilingual UI,
+- full Dockerized deployment with HTTPS (Nginx + Certbot).
 
-## Technology Stack
+The project serves as both a **learning tool** and a **professional hiring portfolio**.
 
-### Backend
+---
 
-* **Django (3.11.9)**: Backend framework for user management, API endpoints, and database interaction.
-* **Python (3.11.9)**: Programming language for backend logic.
-* **Machine Learning Libraries**:
+## 🧱 Technology Stack
 
-  * NumPy
-  * SciPy
-  * Scikit-learn
-  * OpenCV (cv2)/YOLOv8
-  * Matplotlib
+### **Backend (2 Services)**
 
-**Note:** There are **two Django backends**:
+#### **1. user-backend (Django REST Framework)**
+Handles:
+- user registration & login  
+- email activation  
+- password reset  
+- REST API  
+- portfolio endpoints  
 
-1. `user-backend` – Handles user registration, authentication, and portfolio pages.
-2. `ml-backend` – Handles machine learning computations, human detection, and chart data.
+#### **2. ml-backend (Django + ML Engine)**
+Handles:
+- regression & classification models  
+- training pipelines  
+- generating Matplotlib charts  
+- person detection (OpenCV / YOLOv8)
 
-### Frontend
+**Languages & Libraries:**
+- Python 3.11  
+- NumPy, SciPy  
+- Scikit-learn  
+- OpenCV  
+- Matplotlib  
 
-* **React (19.2.0)**: JavaScript library for UI development.
-* **JavaScript**
-* **React Router DOM (6.30.2)**
-* **Bootstrap (5.3.8)**
-* **Axios (1.13.2)**
+---
 
-### Database
+### **Frontend**
 
-* **PostgreSQL**: Relational database for storing user and portfolio data.
+- React 19  
+- React Router DOM 6  
+- Bootstrap 5  
+- Axios  
+- Multi-language dictionary (EN/PL)
 
-## Features
+---
 
-* **Interactive ML Charts**: Explore data and model predictions dynamically.
-* **User Authentication**: Registration, login, password reset.
-* **Personalized Portfolio**: Each user has a portfolio page to showcase projects.
-* **Language Switching**: Multi-language support.
-* **Human Detection**: Demonstrates human detection using ML models.
+### **Database**
 
-## Getting Started
+- PostgreSQL (user accounts, portfolio metadata)
 
-### Prerequisites
+---
 
-* Python 3.11.x
-* PostgreSQL
-* Node.js & npm
+### **DevOps**
 
-### Installation
+- Docker & Docker Compose  
+- Nginx reverse proxy  
+- HTTPS via Certbot & Let’s Encrypt  
 
-#### Clone the repository
+---
+
+## 🔥 Features
+
+### **Machine Learning**
+- Interactive regression & classification visualization  
+- Real training with dynamically generated charts  
+- Person detection in uploaded images  
+
+### **User System**
+- Registration with activation email  
+- Login + password reset  
+- Secure cookies (HTTP-only)
+
+### **Portfolio**
+- Multilingual UI  
+- Responsive design  
+- Personal user portfolio view  
+
+### **Infrastructure**
+- Four-container architecture (frontend, user-backend, ml-backend, PostgreSQL)  
+- Production-ready HTTPS  
+- Reverse proxy using Nginx  
+
+---
+
+## 🚀 Getting Started (Development)
+
+### **Prerequisites**
+- Python 3.11+
+- Node.js and npm
+- PostgreSQL
+- *(Optional)* Docker
+
+---
+
+# EzPortfolio – Setup Guide
+
+## 1️⃣ Download / Clone Repository
 
 ```bash
-git clone <repository_url>
-cd ezportfolio
+git clone https://github.com/Nixir-hub/EzPortfolio.git
+cd EzPortfolio
 ```
 
-#### Set up PostgreSQL
+---
 
-* Create a database: `myportfolio_db`
-* Create a user: `postgres` with password `1234` (adjust in `settings.py` if needed)
+## 2️⃣ Configure PostgreSQL
 
-#### Backend Setup
+Create a new database:
+
+```sql
+CREATE DATABASE myportfolio_db;
+```
+
+Or via CLI:
 
 ```bash
-# Create virtual environment
+psql -U postgres -c "CREATE DATABASE myportfolio_db";
+```
+
+Database credentials used in the app:
+
+```yaml
+USER: postgres
+PASSWORD: 1234
+DATABASE: myportfolio_db
+```
+
+> You can modify these settings in `settings.py` or in the Docker `.env` file.
+
+---
+
+## 3️⃣ Backend Setup
+
+### Create virtual environment
+
+```bash
 python -m venv venv
-# Activate environment
-# Linux/macOS
+```
+
+### Activate environment
+
+**Linux/macOS:**
+
+```bash
 source venv/bin/activate
-# Windows
+```
+
+**Windows:**
+
+```bash
 venv\Scripts\activate
+```
 
-# Install dependencies
+### Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# Apply migrations
+### Apply migrations
+
+```bash
 python manage.py migrate
+```
 
-# Create superuser
+### Create admin user
+
+```bash
 python manage.py createsuperuser
 ```
 
-#### Frontend Setup
+---
+
+## 4️⃣ Frontend Setup
 
 ```bash
 cd frontend
 npm install
 ```
 
-### Running the Application
+---
 
-#### Backend
+## 5️⃣ Run Development Servers
+
+### Backend
 
 ```bash
 python manage.py runserver
 ```
 
-* Access at [http://localhost:8000](http://localhost:8000)
+➡ [http://localhost:8000](http://localhost:8000)
 
-#### Frontend
+### Frontend
 
 ```bash
 npm start
 ```
 
-* Access at [http://localhost:3000](http://localhost:3000)
+➡ [http://localhost:3000](http://localhost:3000)
 
-## Educational / Hiring Purpose
+---
 
-This project is intended for **educational purposes and as a portfolio for hiring**.
-It is not for commercial use without prior permission.
+## 🎯 Purpose
 
-## Contributing
+EzPortfolio is designed for:
+
+* Recruiters evaluating full-stack and ML engineering skills
+* Students learning full-stack ML systems
+* Developers presenting portfolio-grade ML applications
+
+> Not intended for commercial use without permission.
+
+---
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a new branch (`git checkout -b feature-name`)
-3. Make changes and commit with clear messages
-4. Push to your fork (`git push origin feature-name`)
-5. Create a pull request to the main repository
+2. Create a feature branch
+3. Commit your changes
+4. Push the branch
+5. Open a pull request
 
-## License
+---
 
-This project is provided for **educational and portfolio purposes**.
+## 📄 License
 
-## Acknowledgements
+This project is provided for educational and portfolio purposes.
 
-* Django, React, Bootstrap
-* NumPy, SciPy, Scikit-learn, OpenCV, Matplotlib
-* Axios
+---
 
-## Contact
+## 📬 Contact
 
-* [GitHub Profile](https://github.com/Nixir-hub)
-* Email: [ernestzdunczyk@gmail.com](mailto:ernestzdunczyk@gmail.com)
+* **GitHub:** [https://github.com/Nixir-hub](https://github.com/Nixir-hub)
+* **Email:** [ernestzdunczyk@gmail.com](mailto:ernestzdunczyk@gmail.com)
+
