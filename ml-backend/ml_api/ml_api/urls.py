@@ -18,6 +18,6 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path("api/", include("models_api.urls")),
-    path("api/", include("ai_humanDetection_api.urls"))
+    path("ml/", include("models_api.urls", )),
+    path("ml/", include("ai_humanDetection_api.urls"))
 ]

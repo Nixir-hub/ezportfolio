@@ -10,7 +10,6 @@ const InteractiveMLChartLive = () => {
   const [points, setPoints] = useState([]);
   const [grid, setGrid] = useState(null);
   const [line, setLine] = useState(null);
-
   const [activeTab, setActiveTab] = useState("classify");
   const [selectedLabel, setSelectedLabel] = useState(0);
 
@@ -107,34 +106,61 @@ const InteractiveMLChartLive = () => {
   // LOSS
   // ================================
   const drawLoss = () => {
-    const svg = d3.select(lossRef.current);
-    svg.selectAll("*").remove();
+  const svg = d3.select(lossRef.current);
+  svg.selectAll("*").remove();
 
-    if (!lossHistory.length) return;
+  if (!lossHistory.length) return;
 
-    const h = 200;
-    const x = d3.scaleLinear().domain([0, lossHistory.length - 1]).range([margin.left, width - margin.right]);
-    const y = d3.scaleLinear().domain([0, d3.max(lossHistory)]).range([h - margin.bottom, margin.top]);
+  const h = 200;
+  const x = d3.scaleLinear().domain([0, lossHistory.length - 1]).range([margin.left, width - margin.right]);
+  const y = d3.scaleLinear().domain([0, d3.max(lossHistory)]).range([h - margin.bottom, margin.top]);
 
-    const lineGen = d3.line()
-      .x((d, i) => x(i))
-      .y(d => y(d));
+  const lineGen = d3.line()
+    .x((d, i) => x(i))
+    .y(d => y(d));
 
-    svg.append("path")
-      .datum(lossHistory)
-      .attr("d", lineGen)
-      .attr("stroke", "crimson")
-      .attr("fill", "none")
-      .attr("stroke-width", 2);
+  //  loss line
+  svg.append("path")
+    .datum(lossHistory)
+    .attr("d", lineGen)
+    .attr("stroke", "crimson")
+    .attr("fill", "none")
+    .attr("stroke-width", 2);
 
-    svg.append("g")
-      .attr("transform", `translate(0, ${h - margin.bottom})`)
-      .call(d3.axisBottom(x));
+  // axis
+  svg.append("g")
+    .attr("transform", `translate(0, ${h - margin.bottom})`)
+    .call(d3.axisBottom(x).ticks(5));
+  svg.append("g")
+    .attr("transform", `translate(${margin.left}, 0)`)
+    .call(d3.axisLeft(y).ticks(5));
 
-    svg.append("g")
-      .attr("transform", `translate(${margin.left}, 0)`)
-      .call(d3.axisLeft(y));
-  };
+  // name of axis
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", (width + margin.left - margin.right) / 2)
+    .attr("y", h - 5)
+    .text("Epochs")
+    .style("font-size", "12px")
+    .style("fill", "#333");
+
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("transform", `translate(15, ${h/2}) rotate(-90)`)
+    .text("Loss")
+    .style("font-size", "12px")
+    .style("fill", "#333");
+
+  // Title
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("x", (width + margin.left - margin.right) / 2)
+    .attr("y", margin.top / 2)
+    .text("Training Loss")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .style("fill", "#333");
+};
 
   useEffect(() => {
     drawChart();
@@ -207,7 +233,8 @@ const InteractiveMLChartLive = () => {
 
     try {
       if (activeTab === "classify") {
-        const res = await fetch("http://localhost:8001/api/ml/classify/", {
+
+        const res = await fetch(`/ml/classify/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ points, epochs, lr, grid_res: 80 })
@@ -219,11 +246,11 @@ const InteractiveMLChartLive = () => {
       }
 
     if (activeTab === "regression") {
-      let endpoint = "http://localhost:8001/api/ml/regression/";
+      let endpoint = `/ml/regression/`;
 
-      if (regFunction === "linear") endpoint = "http://localhost:8001/api/ml/regression/";
-      if (regFunction === "poly")   endpoint = "http://localhost:8001/api/ml/regression/poly/";
-      if (regFunction === "sin")    endpoint = "http://localhost:8001/api/ml/regression/sin/";
+      if (regFunction === "linear") endpoint = `/ml/regression/`;
+      if (regFunction === "poly")   endpoint = `/ml/regression/poly/`;
+      if (regFunction === "sin")    endpoint = `/ml/regression/sin/`;
 
       const res = await fetch(endpoint, {
         method: "POST",

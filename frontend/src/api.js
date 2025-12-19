@@ -1,5 +1,7 @@
 import { AuthContext } from "./components/contexts/AuthContext";
 
+
+
 export async function apiFetch(url, options = {}) {
   const access = localStorage.getItem("access");
   const refresh = localStorage.getItem("refresh");
@@ -20,7 +22,7 @@ export async function apiFetch(url, options = {}) {
 
   // jeśli access wygasł → próbujemy refresh
   if (res.status === 401 && refresh) {
-    const refreshRes = await fetch("http://localhost:8000/api/token/refresh/", {
+    const refreshRes = await fetch(`/api/token/refresh/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refresh }),

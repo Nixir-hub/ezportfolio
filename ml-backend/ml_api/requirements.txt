@@ -1,0 +1,22 @@
+django>=5.2.8,<6
+djangorestframework
+djangorestframework-simplejwt
+python-decouple
+psycopg2
+django-cors-headers
+pytest-django
+gunicorn
+whitenoise
+python-dotenv # optional if you prefer .env handling
+pillow
+django>=5.2.8,<6
+numpy
+torch # choose CPU or CUDA wheel matching target platform (see note below)
+opencv-python-headless # for ML/human detection inference
+torchvision # if you use torchvision utilities / models
+scikit-learn # optional (used in many ML utilities)
+pandas # optional, if used by model code
+urllib3 # general HTTP utilities (settings show urllib.request use)
+pytest
+pytest-django
+ultralytics
