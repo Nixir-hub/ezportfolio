@@ -34,7 +34,7 @@ class RegisterView(generics.CreateAPIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
 
-        activation_link = f"{FRONTEND_URL}/activate/{uid}/{token}/"
+        activation_link = f"/activate/{uid}/{token}/"
         print("SMTP SETTINGS:", config("EMAIL_HOST", config("EMAIL_HOST_USER")))
 
         # --- wysyłamy maila aktywacyjnego ---

@@ -177,11 +177,15 @@ CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
     "https://ezportfolio.eu",
     "https://www.ezportfolio.eu",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
 ]
 
 # ALLOWED_HOSTS
 ALLOWED_HOSTS = [
     "ezportfolio.eu",
     "www.ezportfolio.eu",
+    "localhost",
+    "127.0.0.1",
 ]
 

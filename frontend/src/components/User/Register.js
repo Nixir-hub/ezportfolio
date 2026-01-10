@@ -1,12 +1,14 @@
 import { useState } from "react";
-import {useLanguage} from '../contexts/language_context_provider';
+import { useLanguage } from '../contexts/language_context_provider';
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { t } = useLanguage()
+  const [activationLink, setActivationLink] = useState("");
+  const { t } = useLanguage();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,15 +22,18 @@ export default function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage("User registered successfully. You can login now.");
+        setMessage(t("user_registered")); // np. "User registered successfully. Check your email."
+        setActivationLink(data.activation_link_dev || ""); // wyświetlamy link do aktywacji
         setUsername("");
         setEmail("");
         setPassword("");
       } else {
-        setMessage(data.error || "Something went wrong. Please try again later.");
+        setMessage(data.error || t("something_wrong"));
+        setActivationLink("");
       }
     } catch (err) {
-      setMessage("Network error. Try again later.");
+      setMessage(t("network_error"));
+      setActivationLink("");
     }
   };
 
@@ -68,7 +73,15 @@ export default function Register() {
         </div>
         <button type="submit" className="btn btn-primary w-100">{t("register")}</button>
       </form>
+
       {message && <div className="mt-3 alert alert-info">{message}</div>}
+
+      {activationLink && (
+        <div className="mt-3 alert alert-success">
+          <p>{t("activation_link_ready")}</p>
+          <a href={activationLink}>{activationLink}</a>
+        </div>
+      )}
     </div>
   );
 }
